@@ -1,4 +1,6 @@
 <resources>
+    <string name="app_name">TP3_DM_FR</string>
+
     <!-- Page connexion !-->
     <string name="authentication">Authentification</string>
     <string name="email">Courriel</string>
