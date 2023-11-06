@@ -23,11 +23,11 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="200dp"
-        android:layout_marginEnd="40dp"
+        android:layout_marginEnd="20dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,31 +36,53 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/email" />
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/emailEdit"
-                android:layout_width="wrap_content"
+                <EditText
+                    android:id="@+id/emailEditText"
+                    android:layout_width="200dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:hint="@string/email" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:importantForAutofill="no"
-                android:inputType="textEmailAddress" />
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:hint="@string/motDePasse" />
+            </LinearLayout>
 
         </LinearLayout>
+
         <Button
-            android:id="@+id/buttonConnection"
+            android:id="@+id/connexionButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="connectionOnClick"
             android:text="@string/connection" />
+
+        <Button
+            android:id="@+id/newAccountButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="newAccountOnClick"
+            android:text="@string/nouveauCompte" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

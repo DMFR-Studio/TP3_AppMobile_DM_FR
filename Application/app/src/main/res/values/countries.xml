@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="countries_array">
+        <item>SPRING</item>
+        <item>SPRING</item>
+        <item>SPRING</item>
+        <item>SPRING</item>
+        <item>SPRING</item>
+        <item>SPRING</item>
+        <item>SPRING</item>
+        <item>SPRING</item>
+        <item>SPRING</item>
+        <item>SPRING</item>
+    </string-array>
+
+</resources>
