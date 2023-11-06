@@ -1,4 +1,4 @@
-package com.example.tp3_dm_fr;
+package com.example.tp3_dm_fr.database;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -18,12 +18,28 @@ public class User {
     @DatabaseField
     private String email;
 
+    @DatabaseField
+    private String password;
+
+    @DatabaseField
+    private String country;
+
     public User() {}
 
-    public User(String firstName, String lastName, String email) {
+    public User(String firstName, String lastName, String email, String password, String country) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
+        this.country = country;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public int getIdUser() {

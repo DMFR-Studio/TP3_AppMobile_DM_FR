@@ -1,17 +1,23 @@
-package com.example.tp3_dm_fr;
+package com.example.tp3_dm_fr.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.style.StyleSpan;
+import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.example.tp3_dm_fr.R;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -28,10 +34,17 @@ public class GameActivity extends AppCompatActivity {
     private int searchedValue;
     private int score;
 
+    private TextView textView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        textView = findViewById(R.id.textView);
+        SpannableStringBuilder texte = new SpannableStringBuilder(textView.getText().toString());
+        texte.setSpan(new UnderlineSpan(), 0, texte.length(), 0);
+        textView.setText(texte);
 
         txtNumber = (EditText) findViewById(R.id.txtNumber);
         btnCompare = (Button) findViewById(R.id.btnCompare);
@@ -109,6 +122,7 @@ public class GameActivity extends AppCompatActivity {
             score++;
 
             if ( enteredValue == searchedValue ) {
+                //TODO mémoriser score et save en BD le plus faible
                 congratulations();
             } else if ( enteredValue < searchedValue ) {
                 lblResult.setText( R.string.strGreater );

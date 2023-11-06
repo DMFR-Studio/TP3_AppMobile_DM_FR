@@ -1,24 +1,41 @@
 <resources>
-    <string name="app_name">Zones de saisie</string>
+    <!-- Page connexion !-->
     <string name="authentication">Authentification</string>
     <string name="email">Courriel</string>
     <string name="motDePasse">Mot de passe</string>
-    <string name="connection">Connexion</string>
-    <string name="nouveauCompte">Créer nouveau compte</string>
+    <string name="btnConnexion">Connexion</string>
+    <string name="btnNouveauCompte">Créer nouveau compte</string>
+
+    <!-- Page inscription !-->
     <string name="inscription">Inscription</string>
     <string name="prenom">Prénom</string>
     <string name="nom">Nom</string>
     <string name="pays">Pays</string>
+
+    <!-- Validation !-->
+    <string name="strCourrielInvalide">Courriel invalide</string>
+    <string name="strNom">Votre nom doit contenir au moins 3 caractères</string>
+    <string name="strPrenom">Votre prénom doit contenir au moins 3 caractères</string>
+    <string name="strMotDePasse">Le mot de passe doit contenir plus de 5 caractères</string>
+
+    <!-- Jeu !-->
     <string name="lblTitle"> Entrez une valeur entre 1 et 100:</string>
     <string name="btnCompare"> Comparer</string>
     <string name="strGreater"> Veuillez saisir une valeur supérieure.</string>
     <string name="strLower"> Veuillez saisir une valeur inférieure.</string>
-    <string name="strCongratulations"> Toutes nos félicitations</string>
 
+    <!-- Alert window !-->
+    <string name="strCongratulations"> Toutes nos félicitations</string>
     <string name="strMessage"> Félicitations, vous gagnez aprés % d essais. Voulez-vous réessayer?</string>
     <string name="strYes">Oui</string>
     <string name="strNo">Non</string>
+    <string name="strOk">OK</string>
+    <string name="strExcellent">Excellent !</string>
+    <string name="strCompteCree">Le compte a bien été créé !</string>
 
+    <!-- Tableau des scores !-->
     <string name="tableauScore">Tableau des scores</string>
-    <string name="retour">Retour</string>
+    <string name="btnRetourJeu">Retour au Jeu</string>
+    <string name="btnRetourAuthUser">Retour page connexion</string>
+
 </resources>

@@ -1,26 +1,31 @@
-package com.example.tp3_dm_fr;
+package com.example.tp3_dm_fr.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.tp3_dm_fr.Score;
+import com.example.tp3_dm_fr.R;
+import com.example.tp3_dm_fr.database.Score;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class ScoreAdapter extends ArrayAdapter<Score> {
 
     private int ressource;
+    private Context context;
 
     public ScoreAdapter(Context context, int resource, List<Score> data) {
         super(context, resource, data);
         this.ressource = resource;
+        this.context = context;
     }
 
     @Override
@@ -38,10 +43,14 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
         TextView scoreDateTextView = view.findViewById(R.id.scoreDateTextView);
 
         if(view != null){
-//            if( != null){
-//                paysImageView.setImageResource(scoreItem.getImageResource());
-//            }
-            paysImageView.setImageResource(R.drawable.spring);
+            if(paysImageView != null){
+                Resources res = context.getResources();
+                String drawableName = scoreItem.getUser().getCountry();
+                int resId = res.getIdentifier(drawableName,"drawable", context.getPackageName());
+                Drawable drawable = res.getDrawable(resId);
+                paysImageView.setImageDrawable(drawable);
+            }
+
             if(scorePrenomTextView != null){
                 scorePrenomTextView.setText(scoreItem.getUser().getFirstName());
             }
@@ -51,8 +60,10 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
             if(scoreTextView != null){
                 scoreTextView.setText(String.valueOf(scoreItem.getScore()));
             }
-            if(scoreDateTextView != null){
-                scoreDateTextView.setText(scoreItem.getWhen().toString());
+            if (scoreDateTextView != null) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String formattedDate = dateFormat.format(scoreItem.getWhen());
+                scoreDateTextView.setText(formattedDate);
             }
         }
 

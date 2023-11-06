@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <TextView
         android:id="@+id/title"
@@ -75,14 +75,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="connectionOnClick"
-            android:text="@string/connection" />
+            android:text="@string/btnConnexion" />
 
         <Button
             android:id="@+id/newAccountButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="newAccountOnClick"
-            android:text="@string/nouveauCompte" />
+            android:text="@string/btnNouveauCompte" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

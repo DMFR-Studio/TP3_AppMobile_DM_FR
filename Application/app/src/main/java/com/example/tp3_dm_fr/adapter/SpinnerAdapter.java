@@ -1,4 +1,4 @@
-package com.example.tp3_dm_fr;
+package com.example.tp3_dm_fr.adapter;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.tp3_dm_fr.R;
 
 import java.util.List;
 

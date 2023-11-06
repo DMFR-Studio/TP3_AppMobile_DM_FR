@@ -1,9 +1,11 @@
-package com.example.tp3_dm_fr;
+package com.example.tp3_dm_fr.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+
+import com.example.tp3_dm_fr.R;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ScoreActivity">
+    tools:context=".activity.ScoreActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -29,17 +29,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/tableauScore"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                android:textSize="20sp" />
+                android:gravity="center"
+                android:text="@string/tableauScore" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <Button
-                android:id="@+id/retourButton"
+                android:id="@+id/retourJeuButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/retour"
-                android:onClick="returnToPreviousView"/>
+                android:onClick="returnToGameActivity"
+                android:text="@string/btnRetourJeu" />
+
+            <Button
+                android:id="@+id/retourAuthButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="returnToAuthUserActivity"
+                android:text="@string/btnRetourAuthUser" />
         </LinearLayout>
     </LinearLayout>
 
