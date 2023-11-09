@@ -47,10 +47,9 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
         Resources res = context.getResources();
         String drawableName = countriesList.get(position).toLowerCase();
         int resId = res.getIdentifier(drawableName,"drawable", context.getPackageName());
-        Drawable drawable = res.getDrawable(resId);
 
+        flag.setImageResource(resId);
         country.setText(countriesList.get(position));
-        flag.setImageDrawable(drawable);
 
         return row;
     }

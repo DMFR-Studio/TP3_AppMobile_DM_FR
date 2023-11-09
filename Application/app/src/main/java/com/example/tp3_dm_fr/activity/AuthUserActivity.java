@@ -15,6 +15,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.tp3_dm_fr.R;
+import com.example.tp3_dm_fr.database.DatabaseManager;
+import com.example.tp3_dm_fr.database.User;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,6 +27,7 @@ public class AuthUserActivity extends AppCompatActivity {
     private Button connexionButton;
     private Button newAccountButton;
     private TextView title;
+    private DatabaseManager databaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class AuthUserActivity extends AppCompatActivity {
         title.setText(texte);
 
         initEditField();
+        databaseManager = new DatabaseManager(this);
     }
 
     private void initEditField() {
@@ -93,11 +97,15 @@ public class AuthUserActivity extends AppCompatActivity {
         return matcher.find();
     }
     public void connectionOnClick(View view) {
-        //TODO vérifier que compte est en BD
-        Intent intent = new Intent(this, GameActivity.class);
-        startActivity(intent);
+        User user = databaseManager.getUserByEmailAndPassword(emailInput.getText().toString(), passwordInput.getText().toString());
+        if(user != null){
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra("userId",user.getIdUser());
+            startActivity(intent);
+        } else {
+            emailInput.setError(getText(R.string.emailMotDePasseInvalide));
+        }
     }
-
     public void newAccountOnClick(View view) {
         Intent intent = new Intent(this, NewAccountActivity.class);
         startActivity(intent);

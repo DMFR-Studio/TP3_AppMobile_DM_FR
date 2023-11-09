@@ -47,8 +47,7 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
                 Resources res = context.getResources();
                 String drawableName = scoreItem.getUser().getCountry();
                 int resId = res.getIdentifier(drawableName,"drawable", context.getPackageName());
-                Drawable drawable = res.getDrawable(resId);
-                paysImageView.setImageDrawable(drawable);
+                paysImageView.setImageResource(resId);
             }
 
             if(scorePrenomTextView != null){

@@ -1,6 +1,8 @@
 package com.example.tp3_dm_fr.database;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.Comparator;
 import java.util.Date;
 @DatabaseTable( tableName = "T_Scores" )
 public class Score {
@@ -58,4 +60,5 @@ public class Score {
     public String toString() {
         return idScore + ": " + user + " -> " + score + " : " + when.toString();
     }
+
 }

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="countries_array">
-        <item>SPRING</item>
-        <item>SPRING</item>
-        <item>SPRING</item>
-        <item>SPRING</item>
-        <item>SPRING</item>
-        <item>SPRING</item>
-        <item>SPRING</item>
-        <item>SPRING</item>
-        <item>SPRING</item>
-        <item>SPRING</item>
+        <item>Algerie</item>
+        <item>Allemagne</item>
+        <item>Australie</item>
+        <item>Canada</item>
+        <item>France</item>
+        <item>Irelande</item>
+        <item>Italie</item>
+        <item>Japon</item>
+        <item>Suisse</item>
+        <item>USA</item>
     </string-array>
-
 </resources>

@@ -22,6 +22,8 @@ import android.widget.TextView;
 
 import com.example.tp3_dm_fr.R;
 import com.example.tp3_dm_fr.adapter.SpinnerAdapter;
+import com.example.tp3_dm_fr.database.DatabaseManager;
+import com.example.tp3_dm_fr.database.User;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,6 +40,8 @@ public class NewAccountActivity extends AppCompatActivity {
     private Spinner paysSpinner;
     private String paysChoisie;
     private TextView inscriptionTextView;
+
+    private DatabaseManager databaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +125,8 @@ public class NewAccountActivity extends AppCompatActivity {
         });
         paysSpinner = findViewById(R.id.paysSpinner);
         createPaysSpinner();
+
+        databaseManager = new DatabaseManager( this );
     }
 
     private void createPaysSpinner(){
@@ -135,6 +141,7 @@ public class NewAccountActivity extends AppCompatActivity {
         paysSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 paysChoisie = (String) parent.getItemAtPosition(position);
             }
             @Override
@@ -198,7 +205,13 @@ public class NewAccountActivity extends AppCompatActivity {
         boolean passwordValid = isPasswordValid();
 
         if(prenomValid && nomValid && emailValid && passwordValid){
-            //TODO ajouter en BD
+            databaseManager.insertUser(new User(
+                    prenomEditText.getText().toString(),
+                    nomEditText.getText().toString(),
+                    emailEditText.getText().toString(),
+                    passwordEditText.getText().toString(),
+                    paysChoisie.toLowerCase()));
+            databaseManager.close();
             createAlertNewAccountConfirmation();
         }
     }

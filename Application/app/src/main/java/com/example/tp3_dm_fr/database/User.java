@@ -24,6 +24,9 @@ public class User {
     @DatabaseField
     private String country;
 
+    @DatabaseField
+    private int score;
+
     public User() {}
 
     public User(String firstName, String lastName, String email, String password, String country) {
@@ -32,6 +35,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.country = country;
+        score = 0;
     }
 
     public String getPassword() {
@@ -72,6 +76,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 
     @Override

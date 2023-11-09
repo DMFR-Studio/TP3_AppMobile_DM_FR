@@ -18,10 +18,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.tp3_dm_fr.R;
+import com.example.tp3_dm_fr.database.DatabaseManager;
+import com.example.tp3_dm_fr.database.Score;
+import com.example.tp3_dm_fr.database.User;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -30,16 +35,19 @@ public class GameActivity extends AppCompatActivity {
     private TextView lblResult;
     private ProgressBar pgbScore;
     private TextView lblHistory;
-
     private int searchedValue;
     private int score;
-
     private TextView textView;
+    private DatabaseManager databaseManager;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        Bundle bundle = getIntent().getExtras();
+        userId = bundle.getInt("userId");
 
         textView = findViewById(R.id.textView);
         SpannableStringBuilder texte = new SpannableStringBuilder(textView.getText().toString());
@@ -58,10 +66,11 @@ public class GameActivity extends AppCompatActivity {
 
         NumberFormat formatter = NumberFormat.getCurrencyInstance();
         double price = 1_000_000.01;
-        Log.i( "DEBUG", formatter.format( price ) );
 
         DateFormat dataFormatter = DateFormat.getDateTimeInstance();
-        Log.i( "DEBUG", dataFormatter.format( new Date() ) );
+
+        databaseManager = new DatabaseManager(this);
+
     }
 
     private void init() {
@@ -122,7 +131,15 @@ public class GameActivity extends AppCompatActivity {
             score++;
 
             if ( enteredValue == searchedValue ) {
-                //TODO mémoriser score et save en BD le plus faible
+                User user = databaseManager.getUserById(userId);
+
+                if(user.getScore() == 0 || user.getScore() < score){
+                    databaseManager.updateUserScore(user, score);
+                    databaseManager.insertScore(new Score(user,score,new Date()));
+                }
+
+                
+                databaseManager.close();
                 congratulations();
             } else if ( enteredValue < searchedValue ) {
                 lblResult.setText( R.string.strGreater );

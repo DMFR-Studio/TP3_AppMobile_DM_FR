@@ -12,10 +12,13 @@ import android.widget.TextView;
 
 import com.example.tp3_dm_fr.R;
 import com.example.tp3_dm_fr.adapter.ScoreAdapter;
+import com.example.tp3_dm_fr.database.DatabaseManager;
 import com.example.tp3_dm_fr.database.Score;
 import com.example.tp3_dm_fr.database.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +26,7 @@ public class ScoreActivity extends AppCompatActivity {
 
     private ListView scoreListView;
     private TextView scoreTableauTextView;
+    private DatabaseManager databaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +39,15 @@ public class ScoreActivity extends AppCompatActivity {
         texte.setSpan(new RelativeSizeSpan(2.0f), 0, texte.length(), 0);
         scoreTableauTextView.setText(texte);
 
-        //TODO remplacer par data de la bd et trier en ordre croissant selon le score
-        List<Score> scoreItems = new ArrayList<>();
-        scoreItems.add(new Score(new User("John", "Doe", "exemple@gmail.com", "12345", "spring"), 100, new Date(2023-01-15)));
-        scoreItems.add(new Score(new User("Alice", "Doe", "exemple2@gmail.com", "12345", "spring"), 50, new Date(2023-01-16)));
+        databaseManager = new DatabaseManager( this );
+
+        List<Score> scores = databaseManager.readScores();
+        Collections.sort(scores, (a, b) -> a.getScore() < b.getScore() ? -1 : a.getScore() > b.getScore() ? 0 : 1);
+
+        databaseManager.close();
 
         scoreListView = (ListView) findViewById(R.id.scoreListView);
-        ScoreAdapter adapter = new ScoreAdapter(this, R.layout.score_listview_items, scoreItems);
+        ScoreAdapter adapter = new ScoreAdapter(this, R.layout.score_listview_items, scores);
         scoreListView.setAdapter(adapter);
     }
 

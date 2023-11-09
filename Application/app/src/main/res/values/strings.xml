@@ -7,6 +7,7 @@
     <string name="motDePasse">Mot de passe</string>
     <string name="btnConnexion">Connexion</string>
     <string name="btnNouveauCompte">Créer nouveau compte</string>
+    <string name="emailMotDePasseInvalide">"Nom d'utilisateur ou mot de passe invalide"</string>
 
     <!-- Page inscription !-->
     <string name="inscription">Inscription</string>
