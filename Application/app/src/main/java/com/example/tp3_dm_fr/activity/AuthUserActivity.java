@@ -27,12 +27,18 @@ public class AuthUserActivity extends AppCompatActivity {
     private Button connexionButton;
     private Button newAccountButton;
     private TextView title;
+    private TextView errorMessage;
     private DatabaseManager databaseManager;
+    private boolean passwordIsValid;
+    private boolean emailIsValid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth_user);
+
+        passwordIsValid = false;
+        emailIsValid = false;
 
         title = findViewById(R.id.title);
 
@@ -50,50 +56,68 @@ public class AuthUserActivity extends AppCompatActivity {
         connexionButton = findViewById(R.id.connexionButton);
         connexionButton.setEnabled(false);
         newAccountButton = findViewById(R.id.newAccountButton);
+        errorMessage = findViewById(R.id.errorMessageTextView);
 
         emailInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                connexionButton.setEnabled(isEmailAndPasswordValid());
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(!isValidate(emailInput.getText().toString())){
+                errorMessage.setText("");
+                if(!isEmailValid()){
                     emailInput.setError(getText(R.string.strCourrielInvalide));
+                    emailIsValid = false;
                 } else {
-                    connexionButton.setEnabled(true);
+                    emailIsValid = true;
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                connexionButton.setEnabled(isEmailAndPasswordValid());
             }
         });
 
         passwordInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                connexionButton.setEnabled(isEmailAndPasswordValid());
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(passwordInput.getText().toString().length() < 5){
+                errorMessage.setText("");
+                if(!isPasswordValid()){
                     passwordInput.setError(getText(R.string.strMotDePasse));
+                    passwordIsValid = false;
+                } else {
+                    passwordIsValid = true;
                 }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                connexionButton.setEnabled(isEmailAndPasswordValid());
             }
         });
+
+
     }
-    private boolean isValidate(String email) {
+
+    private boolean isEmailAndPasswordValid() {
+        return emailIsValid && passwordIsValid;
+    }
+
+    private boolean isPasswordValid() {
+        return passwordInput.getText().toString().length() > 5;
+    }
+
+    private boolean isEmailValid() {
         Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]", Pattern.CASE_INSENSITIVE);
-        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailInput.getText().toString());
         return matcher.find();
     }
     public void connectionOnClick(View view) {
@@ -103,7 +127,7 @@ public class AuthUserActivity extends AppCompatActivity {
             intent.putExtra("userId",user.getIdUser());
             startActivity(intent);
         } else {
-            emailInput.setError(getText(R.string.emailMotDePasseInvalide));
+            errorMessage.setText(getText(R.string.emailMotDePasseInvalide));
         }
     }
     public void newAccountOnClick(View view) {

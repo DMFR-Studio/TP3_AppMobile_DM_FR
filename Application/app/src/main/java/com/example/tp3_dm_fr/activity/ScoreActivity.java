@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,11 +28,15 @@ public class ScoreActivity extends AppCompatActivity {
     private ListView scoreListView;
     private TextView scoreTableauTextView;
     private DatabaseManager databaseManager;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_score);
+
+        Bundle bundle = getIntent().getExtras();
+        userId = bundle.getInt("userId");
 
         scoreTableauTextView = findViewById(R.id.scoreTableauTextView);
 
@@ -39,24 +44,25 @@ public class ScoreActivity extends AppCompatActivity {
         texte.setSpan(new RelativeSizeSpan(2.0f), 0, texte.length(), 0);
         scoreTableauTextView.setText(texte);
 
-        databaseManager = new DatabaseManager( this );
+        databaseManager = new DatabaseManager(this);
 
         List<Score> scores = databaseManager.readScores();
-        Collections.sort(scores, (a, b) -> a.getScore() < b.getScore() ? -1 : a.getScore() > b.getScore() ? 0 : 1);
+        Collections.sort(scores, Comparator.comparingInt(Score::getScore));
 
         databaseManager.close();
 
-        scoreListView = (ListView) findViewById(R.id.scoreListView);
+        scoreListView = findViewById(R.id.scoreListView);
         ScoreAdapter adapter = new ScoreAdapter(this, R.layout.score_listview_items, scores);
         scoreListView.setAdapter(adapter);
     }
 
-    public void returnToGameActivity(View view){
+    public void returnToGameActivity(View view) {
         Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra("userId", userId);
         startActivity(intent);
     }
 
-    public void returnToAuthUserActivity(View view){
+    public void returnToAuthUserActivity(View view) {
         Intent intent = new Intent(this, AuthUserActivity.class);
         startActivity(intent);
     }

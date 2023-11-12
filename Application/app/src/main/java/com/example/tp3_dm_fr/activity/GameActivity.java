@@ -75,7 +75,8 @@ public class GameActivity extends AppCompatActivity {
 
     private void init() {
         score = 0;
-        searchedValue = 1 + (int) (Math.random() * 100);
+        searchedValue = 80;
+        //searchedValue = 1 + (int) (Math.random() * 100);
         Log.i( "DEBUG", "Searched value : " + searchedValue );
 
         txtNumber.setText( "" );
@@ -120,41 +121,54 @@ public class GameActivity extends AppCompatActivity {
     private View.OnClickListener btnCompareListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            Log.i( "DEBUG", "Button clicked" );
+            Log.i("DEBUG", "Button clicked");
 
             String strNumber = txtNumber.getText().toString();
-            if ( strNumber.equals( "" ) ) return;
+            if (strNumber.equals("")) return;
 
-            int enteredValue = Integer.parseInt( strNumber );
-            lblHistory.append( strNumber + "\r\n" );
-            pgbScore.incrementProgressBy( 1 );
+            int enteredValue = Integer.parseInt(strNumber);
+            lblHistory.append(strNumber + "\r\n");
+            pgbScore.incrementProgressBy(1);
             score++;
 
-            if ( enteredValue == searchedValue ) {
+            Date currentDate = new Date();
+            if (enteredValue == searchedValue) {
                 User user = databaseManager.getUserById(userId);
+                int userScore = user.getScore();
 
-                if(user.getScore() == 0 || user.getScore() < score){
-                    databaseManager.updateUserScore(user, score);
-                    databaseManager.insertScore(new Score(user,score,new Date()));
-                }
+                handleScore(currentDate, user, userScore);
 
-                
-                databaseManager.close();
                 congratulations();
-            } else if ( enteredValue < searchedValue ) {
-                lblResult.setText( R.string.strGreater );
+
+            } else if (enteredValue < searchedValue) {
+                lblResult.setText(R.string.strGreater);
             } else {
-                lblResult.setText( R.string.strLower );
+                lblResult.setText(R.string.strLower);
             }
 
-            txtNumber.setText( "" );
+            txtNumber.setText("");
             txtNumber.requestFocus();
+        };
 
-        }
     };
+
+    private void handleScore(Date currentDate, User user, int userScore) {
+        if (userScore == 0 || userScore > score) {
+            databaseManager.updateUserScore(user, score);
+            Score scoreToUpdate = databaseManager.getScoreByUserId(userId);
+            if (scoreToUpdate == null) {
+                databaseManager.insertScore(new Score(user, score, currentDate));
+            } else {
+                databaseManager.updateScore(user, scoreToUpdate, score, currentDate);
+            }
+            databaseManager.close();
+        }
+    }
+
 
     private void goToScoreActivity(){
         Intent intent = new Intent(this, ScoreActivity.class);
+        intent.putExtra("userId",userId);
         startActivity(intent);
     }
 }

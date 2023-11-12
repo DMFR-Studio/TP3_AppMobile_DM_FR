@@ -8,22 +8,16 @@ public class User {
 
     @DatabaseField( columnName = "idUser", generatedId = true )
     private int idUser;
-
     @DatabaseField
     private String firstName;
-
     @DatabaseField
     private String lastName;
-
     @DatabaseField
     private String email;
-
     @DatabaseField
     private String password;
-
     @DatabaseField
     private String country;
-
     @DatabaseField
     private int score;
 

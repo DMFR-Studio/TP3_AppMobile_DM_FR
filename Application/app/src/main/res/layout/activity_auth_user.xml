@@ -70,6 +70,12 @@
 
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/errorMessageTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#F40202" />
+
         <Button
             android:id="@+id/connexionButton"
             android:layout_width="match_parent"
@@ -83,6 +89,7 @@
             android:layout_height="wrap_content"
             android:onClick="newAccountOnClick"
             android:text="@string/btnNouveauCompte" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

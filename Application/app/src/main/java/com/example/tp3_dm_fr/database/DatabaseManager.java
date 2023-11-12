@@ -11,6 +11,7 @@ import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 
+import java.util.Date;
 import java.util.List;
 
 public class DatabaseManager extends OrmLiteSqliteOpenHelper {
@@ -77,6 +78,41 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
             Log.e( "DATABASE", "Can't insert user into Database", exception );
         }
     }
+
+    public Score getScoreByUserId(int userId) {
+        try {
+            Dao<Score, Integer> dao = getDao(Score.class);
+            Score score = dao.queryForId(userId);
+            if (score != null) {
+                Log.i("DATABASE", "getScoreByUserId invoked");
+            } else {
+                Log.i("DATABASE", "Score not found in database");
+            }
+            return score;
+        } catch (Exception exception) {
+            Log.e("DATABASE", "Can't get score into Database", exception);
+            return null;
+        }
+    }
+
+    public void updateScore(User user, Score score, int newScore, Date newDate) {
+        try {
+            user.setScore(newScore);
+            Dao<User, Integer> daoUser = getDao(User.class);
+            daoUser.update(user);
+
+            score.setScore(user.getScore());
+            score.setWhen(newDate);
+            Dao<Score, Integer> daoScore = getDao(Score.class);
+            daoScore.update(score);
+
+            Log.i("DATABASE", "User & Score updated");
+        } catch (Exception exception) {
+            Log.e("DATABASE", "Can't update user & score in Database", exception);
+        }
+    }
+
+
 
     public User getUserById(int userId) {
         try {
