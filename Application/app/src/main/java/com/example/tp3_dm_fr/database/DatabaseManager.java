@@ -46,6 +46,11 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    /**
+     * Insère un score dans la base de données.
+     *
+     * @param score L'objet Score à insérer dans la base de données.
+     */
     public void insertScore( Score score ) {
         try {
             Dao<Score, Integer> dao = getDao( Score.class );
@@ -57,6 +62,11 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
     }
 
 
+    /**
+     * Lit tous les scores enregistrés dans la base de données.
+     *
+     * @return Une liste des scores récupérés depuis la base de données, ou null en cas d'échec.
+     */
     public List<Score> readScores() {
         try {
             Dao<Score, Integer> dao = getDao( Score.class );
@@ -69,6 +79,11 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    /**
+     * Insère un user dans la base de données.
+     *
+     * @param user L'objet User à insérer dans la base de données.
+     */
     public void insertUser( User user ) {
         try {
             Dao<User, Integer> dao = getDao( User.class );
@@ -79,6 +94,12 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    /**
+     * Récupère le score associé à un utilisateur dans la base de données.
+     *
+     * @param userId L'identifiant de l'utilisateur pour lequel récupérer le score.
+     * @return Le score associé à l'utilisateur spécifié.
+     */
     public Score getScoreByUserId(int userId) {
         try {
             Dao<Score, Integer> dao = getDao(Score.class);
@@ -95,6 +116,14 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    /**
+     * Met à jour le score et la date associés à un utilisateur dans la base de données.
+     *
+     * @param user L'objet User à mettre à jour avec le nouveau score.
+     * @param score L'objet Score à mettre à jour avec le nouveau score et la nouvelle date.
+     * @param newScore Le nouveau score à assigner à l'utilisateur.
+     * @param newDate La nouvelle date à assigner au score.
+     */
     public void updateScore(User user, Score score, int newScore, Date newDate) {
         try {
             user.setScore(newScore);
@@ -112,8 +141,12 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
-
-
+    /**
+     * Récupère un utilisateur à partir de son identifiant dans la base de données.
+     *
+     * @param userId L'identifiant de l'utilisateur à récupérer.
+     * @return L'objet User associé à l'identifiant spécifié.
+     */
     public User getUserById(int userId) {
         try {
             Dao<User, Integer> dao = getDao(User.class);
@@ -130,6 +163,14 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    /**
+     * Récupère un utilisateur à partir de son adresse e-mail et de son mot de passe dans la base de données.
+     *
+     *
+     * @param email L'adresse e-mail de l'utilisateur à récupérer.
+     * @param password Le mot de passe de l'utilisateur à récupérer.
+     * @return L'objet User associé à l'adresse e-mail et au mot de passe spécifiés
+     */
     public User getUserByEmailAndPassword(String email, String password) {
         try {
             Dao<User, Integer> dao = getDao(User.class);
@@ -149,6 +190,12 @@ public class DatabaseManager extends OrmLiteSqliteOpenHelper {
         }
     }
 
+    /**
+     * Met à jour le score de l'utilisateur dans la base de données.
+     *
+     * @param user L'objet User dont le score doit être mis à jour.
+     * @param newScore Le nouveau score à assigner à l'utilisateur.
+     */
     public void updateUserScore(User user, int newScore) {
         try {
             Dao<User, Integer> dao = getDao(User.class);

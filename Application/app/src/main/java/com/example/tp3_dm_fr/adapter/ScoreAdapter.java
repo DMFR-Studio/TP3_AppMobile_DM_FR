@@ -28,6 +28,18 @@ public class ScoreAdapter extends ArrayAdapter<Score> {
         this.context = context;
     }
 
+    /**
+     * Appelée automatiquement lorsque la vue de l'élément à la position donnée
+     * doit être construite ou recyclée. Elle fait la mise en page de l'élément à partir de la
+     * ressource spécifiée si la vue n'est pas déjà créée. Ensuite, elle met à jour les éléments de
+     * la vue (image de pays, prénom, nom, score, date) avec les données de l'élément correspondant
+     * à la position spécifiée dans la liste de scores.
+     *
+     * @param position La position de l'élément dans la liste.
+     * @param view La vue à réutiliser
+     * @param parent Le groupe parent dans lequel la vue sera attachée.
+     * @return La vue mise à jour pour l'élément à la position spécifiée.
+     */
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         if (view == null) {

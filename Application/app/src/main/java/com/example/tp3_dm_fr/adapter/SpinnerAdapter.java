@@ -37,6 +37,16 @@ public class SpinnerAdapter extends ArrayAdapter<String> {
         return getCustomView(position, convertView, parent);
     }
 
+    /**
+     * Utilisée pour personnaliser l'apparence des éléments dans la liste déroulante
+     * du sélecteur de pays. Elle fait la mise en page spécifiée pour chaque élément de la
+     * liste déroulante et configure le texte et l'image en fonction des données du pays à la position spécifiée.
+     *
+     * @param position La position de l'élément dans la liste déroulante.
+     * @param convertView La vue à réutiliser
+     * @param parent Le groupe parent dans lequel la vue sera attachée.
+     * @return La vue personnalisée pour l'élément à la position spécifiée dans la liste déroulante.
+     */
     public View getCustomView(int position, View convertView, ViewGroup parent){
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View row = inflater.inflate(R.layout.countries_dropdown_items, parent, false);

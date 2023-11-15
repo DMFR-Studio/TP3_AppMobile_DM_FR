@@ -5,10 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
-import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
@@ -24,9 +22,7 @@ import com.example.tp3_dm_fr.database.User;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -37,7 +33,7 @@ public class GameActivity extends AppCompatActivity {
     private TextView lblHistory;
     private int searchedValue;
     private int score;
-    private TextView textView;
+    private TextView gameTextView;
     private DatabaseManager databaseManager;
     private int userId;
 
@@ -49,10 +45,12 @@ public class GameActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         userId = bundle.getInt("userId");
 
-        textView = findViewById(R.id.textView);
-        SpannableStringBuilder texte = new SpannableStringBuilder(textView.getText().toString());
+        gameTextView = findViewById(R.id.textView);
+
+        //Souligne le texte du "gameTextView"
+        SpannableStringBuilder texte = new SpannableStringBuilder(gameTextView.getText().toString());
         texte.setSpan(new UnderlineSpan(), 0, texte.length(), 0);
-        textView.setText(texte);
+        gameTextView.setText(texte);
 
         txtNumber = (EditText) findViewById(R.id.txtNumber);
         btnCompare = (Button) findViewById(R.id.btnCompare);
@@ -87,6 +85,18 @@ public class GameActivity extends AppCompatActivity {
         txtNumber.requestFocus();
     }
 
+    /**
+     *
+     * Affiche un message de félicitations dans une étiquette et crée une boîte de dialogue pour
+     * informer l'utilisateur du score obtenu. La boîte de dialogue propose trois options :
+     * recommencer le jeu, quitter l'application, ou afficher le tableau des scores.
+     *
+     * Pour les options de la boîte de dialogue :
+     * - "Oui" relance le jeu en appelant la méthode init().
+     * - "Non" termine l'activité actuelle.
+     * - "Tableau des scores" lance l'activité correspondant au tableau des scores en appelant
+     *   la méthode goToScoreActivity().
+     */
     private void congratulations() {
         lblResult.setText( R.string.strCongratulations );
 
@@ -118,6 +128,22 @@ public class GameActivity extends AppCompatActivity {
         retryAlert.show();
     }
 
+    /**
+     * Gestionnaire d'événement pour le bouton de comparaison.
+     *
+     * Déclenché lorsque le bouton est cliqué.
+     * Il effectue les actions suivantes :
+     * - Récupère la valeur entrée par l'utilisateur depuis le champ de texte (txtNumber).
+     * - Incrémente le score et met à jour l'affichage de l'historique.
+     * - Compare la valeur entrée avec la valeur recherchée.
+     * - Si la valeur entrée correspond à la valeur recherchée, gère le score, affiche les félicitations,
+     *   et met à jour l'historique.
+     * - Si la valeur entrée est inférieure à la valeur recherchée, affiche un message indiquant
+     *   que la valeur recherchée est plus grande.
+     * - Si la valeur entrée est supérieure à la valeur recherchée, affiche un message indiquant
+     *   que la valeur recherchée est plus petite.
+     * - Réinitialise le champ de texte et demande le focus pour la prochaine entrée.
+     */
     private View.OnClickListener btnCompareListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -135,9 +161,7 @@ public class GameActivity extends AppCompatActivity {
             if (enteredValue == searchedValue) {
                 User user = databaseManager.getUserById(userId);
                 int userScore = user.getScore();
-
                 handleScore(currentDate, user, userScore);
-
                 congratulations();
 
             } else if (enteredValue < searchedValue) {
@@ -152,6 +176,20 @@ public class GameActivity extends AppCompatActivity {
 
     };
 
+    /**
+     * Gère la mise à jour du score de l'utilisateur dans la base de données.
+     *
+     * Compare le score actuel avec le score enregistré pour l'utilisateur et
+     * effectue les actions suivantes :
+     * - Si le score actuel est plus bas que le score enregistré ou si le score enregistré est 0,
+     *   met à jour le score de l'utilisateur dans la base de données.
+     * - Si un score existe pour l'utilisateur, met à jour ce score avec le nouveau score et
+     *   la date actuelle. Sinon, crée un nouveau score pour l'utilisateur.
+     *
+     * @param currentDate La date actuelle.
+     * @param user L'objet utilisateur dont le score doit être géré.
+     * @param userScore Le score actuel de l'utilisateur.
+     */
     private void handleScore(Date currentDate, User user, int userScore) {
         if (userScore == 0 || userScore > score) {
             databaseManager.updateUserScore(user, score);
@@ -165,7 +203,13 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Lance l'activité du tableau des scores.
+     *
+     * Cette méthode crée un nouvel intent pour démarrer l'activité ScoreActivity et
+     * ajoute l'identifiant de l'utilisateur en tant qu'extra dans l'intent. Ensuite, elle
+     * lance l'activité correspondante.
+     */
     private void goToScoreActivity(){
         Intent intent = new Intent(this, ScoreActivity.class);
         intent.putExtra("userId",userId);

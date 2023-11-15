@@ -40,6 +40,7 @@ public class ScoreActivity extends AppCompatActivity {
 
         scoreTableauTextView = findViewById(R.id.scoreTableauTextView);
 
+        //Mets le texte du "scoreTableauTextView" deux fois plus gros
         SpannableStringBuilder texte = new SpannableStringBuilder(scoreTableauTextView.getText().toString());
         texte.setSpan(new RelativeSizeSpan(2.0f), 0, texte.length(), 0);
         scoreTableauTextView.setText(texte);
@@ -47,6 +48,7 @@ public class ScoreActivity extends AppCompatActivity {
         databaseManager = new DatabaseManager(this);
 
         List<Score> scores = databaseManager.readScores();
+        //Tri les scores en ordre croissant des scores
         Collections.sort(scores, Comparator.comparingInt(Score::getScore));
 
         databaseManager.close();
@@ -56,12 +58,22 @@ public class ScoreActivity extends AppCompatActivity {
         scoreListView.setAdapter(adapter);
     }
 
+    /**
+     * Retourne au jeu
+     *
+     * @param view La vue associée à l'événement de clic
+     */
     public void returnToGameActivity(View view) {
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra("userId", userId);
         startActivity(intent);
     }
 
+    /**
+     * Retourne à la page de connexion
+     *
+     * @param view La vue associée à l'événement de clic
+     */
     public void returnToAuthUserActivity(View view) {
         Intent intent = new Intent(this, AuthUserActivity.class);
         startActivity(intent);
