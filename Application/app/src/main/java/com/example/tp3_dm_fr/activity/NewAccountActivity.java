@@ -77,8 +77,6 @@ public class NewAccountActivity extends AppCompatActivity {
 
         inscriptionTextView = findViewById(R.id.inscriptionTextView);
 
-        askPermission();
-
         //Mets le texte du "InscriptionTextView" en italique
         SpannableStringBuilder texte = new SpannableStringBuilder(inscriptionTextView.getText().toString());
         texte.setSpan(new StyleSpan(Typeface.ITALIC), 0, texte.length(), 0);
@@ -175,44 +173,33 @@ public class NewAccountActivity extends AppCompatActivity {
 
     }
 
-    private void askPermission() {
-        // Check if the permission is not granted
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED) {
-            // Request the permission
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.INTERNET}, MY_PERMISSIONS_REQUEST_INTERNET);
-        } else {
-            // Permission is already granted, you can proceed with your action
-            // For example, initiate your API call here
-            initiateApiCall();
-        }
-    }
-
-    private void initiateApiCall() {
-        //WebReq.get(this, "/getScores", null, new NewAccountActivity.ResponseHandler());
-        String url = "http://10.0.0.198:8081/getScores";
+    private void addUserAPI(String firstName, String lastName, String email, String password, String country) {
+        String url = "http://10.0.0.198:8081/addUser";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("first_name", firstName);
+            postData.put("last_name", lastName);
+            postData.put("email", email);
+            postData.put("password", password);
+            postData.put("country", country);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, postData,
                 response -> {
-                    // Handle the JSON array response
-                    try {
-                        for (int i = 0; i < response.length(); i++) {
-                            JSONObject jsonObject = response.getJSONObject(i);
-                            // Access individual JSON objects in the array
-                            test += jsonObject.toString() + " | ";
-                        }
-                        System.out.println(test);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    // Handle successful response (status 200)
+                    Log.i("api", "user added successfully");
                 },
                 error -> {
                     // Handle error
+                    Log.e("api", "user credentials invalid");
                 });
 
-        queue.add(jsonArrayRequest);
-        System.out.println(test);
+        queue.add(jsonObjectRequest);
     }
 
     /**
@@ -319,7 +306,7 @@ public class NewAccountActivity extends AppCompatActivity {
      */
     private boolean isPasswordValid() {
         boolean passwordValid = false;
-        if (passwordEditText.getText().toString().length() < 5) {
+        if (passwordEditText.getText().toString().length() < 6) {
             passwordEditText.setError(getText(R.string.strMotDePasse));
         } else {
             passwordValid = true;
@@ -352,6 +339,11 @@ public class NewAccountActivity extends AppCompatActivity {
                     passwordEditText.getText().toString(),
                     paysChoisie.toLowerCase()));
             databaseManager.close();
+            addUserAPI(prenomEditText.getText().toString(),
+                    nomEditText.getText().toString(),
+                    emailEditText.getText().toString(),
+                    passwordEditText.getText().toString(),
+                    paysChoisie.toLowerCase());
             createAlertNewAccountConfirmation();
         }
 

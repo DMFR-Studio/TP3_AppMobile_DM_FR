@@ -9,15 +9,26 @@ import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.tp3_dm_fr.R;
 import com.example.tp3_dm_fr.database.DatabaseManager;
 import com.example.tp3_dm_fr.database.User;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -164,6 +175,7 @@ public class AuthUserActivity extends AppCompatActivity {
      */
     public void connectionOnClick(View view) {
         User user = databaseManager.getUserByEmailAndPassword(emailInput.getText().toString(), passwordInput.getText().toString());
+        loginUser(emailInput.getText().toString(), passwordInput.getText().toString());
         if(user != null){
             Intent intent = new Intent(this, GameActivity.class);
             intent.putExtra("userId",user.getIdUser());
@@ -171,6 +183,43 @@ public class AuthUserActivity extends AppCompatActivity {
         } else {
             errorMessage.setText(getText(R.string.emailMotDePasseInvalide));
         }
+    }
+
+    private void loginUser(String email, String password) {
+        String url = "http://10.0.0.198:8081/login";
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("email", email);
+            postData.put("password", password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                response -> {
+                    // Handle successful response (status 200)
+                    Log.i("success", response);
+                    Log.i("api", "user logged in successfully");
+                },
+                error -> {
+                    // Handle error
+                    Log.e("erreur", error.toString());
+                    Log.e("api", "user's login credentials invalid");
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Add parameters to the request body
+                Map<String, String> params = new HashMap<>();
+                params.put("email", "johndoe@example.com");
+                params.put("password", "password123");
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
     }
 
     /**
