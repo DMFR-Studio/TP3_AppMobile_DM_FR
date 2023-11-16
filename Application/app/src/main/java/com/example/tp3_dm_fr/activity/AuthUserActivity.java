@@ -186,7 +186,7 @@ public class AuthUserActivity extends AppCompatActivity {
     }
 
     private void loginUser(String email, String password) {
-        String url = "http://10.0.0.198:8081/login";
+        String url = "https://tp-3-app-mobile-rest.vercel.app:8081/login";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 

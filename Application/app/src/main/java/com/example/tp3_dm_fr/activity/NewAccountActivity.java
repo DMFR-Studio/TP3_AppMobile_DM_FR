@@ -174,7 +174,7 @@ public class NewAccountActivity extends AppCompatActivity {
     }
 
     private void addUserAPI(String firstName, String lastName, String email, String password, String country) {
-        String url = "http://10.0.0.198:8081/addUser";
+        String url = "https://tp-3-app-mobile-rest.vercel.app:8081/addUser";
 
         RequestQueue queue = Volley.newRequestQueue(this);
 
@@ -347,46 +347,6 @@ public class NewAccountActivity extends AppCompatActivity {
             createAlertNewAccountConfirmation();
         }
 
-    }
-
-    private class ResponseHandler extends JsonHttpResponseHandler {
-        @Override
-        public void onStart() {
-            super.onStart();
-        }
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-            List<String> retour = new ArrayList<>();
-            super.onSuccess(statusCode, headers, response);
-            Log.d("response ", response.toString() + " ");
-            try {
-                for (int i = 0; i < response.length(); i++) {
-                    JSONObject jsonObject = response.getJSONObject(i);
-
-                    // Check if the "error" property exists in the current JSONObject
-                    if (jsonObject.has("error") && jsonObject.getBoolean("error")) {
-                        // failed to login
-                        // Toast.makeText(getBaseContext(), jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
-                        retour.add(jsonObject.toString());
-                    } else {
-                        retour.add(jsonObject.toString());
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-            super.onFailure(statusCode, headers, responseString, throwable);
-        }
-
-        @Override
-        public void onFinish() {
-            super.onFinish();
-        }
     }
 
     /**
